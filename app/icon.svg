@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#07080a"/>
+  <!-- A node with three edges: the knowledge graph reduced to its smallest legible form. -->
+  <g stroke="#6e7bff" stroke-width="1.6" stroke-linecap="round" opacity="0.65">
+    <path d="M16 16 L8 9"/>
+    <path d="M16 16 L25 13"/>
+    <path d="M16 16 L12 25"/>
+  </g>
+  <circle cx="16" cy="16" r="4.2" fill="#b8c0ff"/>
+  <circle cx="8" cy="9" r="2.1" fill="#6e7bff"/>
+  <circle cx="25" cy="13" r="2.1" fill="#6e7bff"/>
+  <circle cx="12" cy="25" r="2.1" fill="#6e7bff"/>
+</svg>
