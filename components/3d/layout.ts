@@ -17,8 +17,26 @@ export const KNOWLEDGE_ORIGIN = new THREE.Vector3(-60, 0, 0)
 export const PROJECTS_ORIGIN = new THREE.Vector3(0, 0, 70)
 export const CONTACT_ORIGIN = new THREE.Vector3(0, 44, 0)
 
-/** Radius of the career orbit. */
+/** Lateral and depth radius of the career arc. */
 export const JOURNEY_RADIUS = 7
+
+/**
+ * Vertical gap between consecutive milestones.
+ *
+ * The arc grows with the number of milestones rather than squeezing them
+ * into a fixed height — adding a role to `data/experience.ts` should not
+ * shrink the gaps until the labels collide. The camera distance below
+ * compensates, so the nodes stay the same apparent size.
+ */
+export const JOURNEY_STEP = 3.3
+
+/** How far the camera needs to stand back to frame `count` milestones. */
+export function journeyCameraDistance(count: number) {
+  const height = Math.max(1, count - 1) * JOURNEY_STEP
+  // Frame the run at roughly 70% of the viewport height at a 46° vertical
+  // field of view, leaving room for the labels above each node.
+  return Math.max(20, height / (2 * Math.tan((46 * Math.PI) / 360) * 0.7))
+}
 
 /**
  * Milestones climb a vertical arc that bows away from the viewer.
@@ -41,7 +59,7 @@ export function journeyNodePosition(index: number, total: number, out?: THREE.Ve
 
   v.set(
     Math.sin(angle) * JOURNEY_RADIUS * 0.5,
-    -(t - 0.5) * JOURNEY_RADIUS * 2,
+    -(t - 0.5) * Math.max(1, total - 1) * JOURNEY_STEP,
     // The middle of the run sits deepest, so the path reads as a curve
     // through space rather than a line drawn on glass.
     -Math.cos(angle) * JOURNEY_RADIUS * 0.55,

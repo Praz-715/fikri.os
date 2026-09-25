@@ -17,7 +17,7 @@ import { Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { experience } from '@/data/experience'
+import { journey } from '@/data/experience'
 import { palette } from '@/lib/three'
 import { useSystem } from '@/lib/system'
 import { getSelection, setSelection, useSelection } from '@/lib/store'
@@ -39,9 +39,9 @@ export function JourneyOrbit({ active }: Props) {
 
   const nodes = useMemo(
     () =>
-      experience.map((m, i) => ({
+      journey.map((m, i) => ({
         milestone: m,
-        position: journeyNodePosition(i, experience.length),
+        position: journeyNodePosition(i, journey.length),
       })),
     [],
   )
@@ -49,7 +49,7 @@ export function JourneyOrbit({ active }: Props) {
   /**
    * A Catmull-Rom curve through the milestones. Drawing the path as a
    * smooth spline rather than straight segments is what makes it read as
-   * one continuous journey instead of four separate points.
+   * one continuous journey instead of a scatter of separate points.
    */
   const pathGeometry = useMemo(() => {
     const curve = new THREE.CatmullRomCurve3(
@@ -64,7 +64,7 @@ export function JourneyOrbit({ active }: Props) {
 
   useEffect(() => () => pathGeometry.dispose(), [pathGeometry])
 
-  // Shared geometries — four nodes, but no reason to allocate eight buffers.
+  // Shared across every node — one buffer each, not one per milestone.
   const shellGeometry = useMemo(() => new THREE.IcosahedronGeometry(0.95, 2), [])
   const coreGeometry = useMemo(() => new THREE.IcosahedronGeometry(0.38, 2), [])
   const ringGeometry = useMemo(() => new THREE.TorusGeometry(1.62, 0.013, 3, 48), [])
@@ -288,13 +288,13 @@ function MilestoneNode({
           readable by assistive tech through the canvas overlay. */}
       <Html
         center
-        distanceFactor={14}
+        distanceFactor={20}
         position={[0, 1.7, 0]}
         zIndexRange={[20, 0]}
         style={{ pointerEvents: 'none' }}
       >
         <div
-          className="select-none whitespace-nowrap text-center transition-opacity duration-500"
+          className="hidden select-none whitespace-nowrap text-center transition-opacity duration-500 lg:block"
           style={{ opacity: active ? 1 : 0 }}
           aria-hidden="true"
         >
@@ -308,10 +308,11 @@ function MilestoneNode({
             className="u-mono mt-1"
             style={{
               fontSize: '0.5rem',
-              letterSpacing: '0.14em',
+              letterSpacing: '0.12em',
               color: '#5b6273',
-              maxWidth: '14rem',
-              whiteSpace: 'normal',
+              // Kept on one line: a wrapped date at this scale is three
+              // illegible fragments, and the card beside it has the full text.
+              whiteSpace: 'nowrap',
             }}
           >
             {period ?? kind}

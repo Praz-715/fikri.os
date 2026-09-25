@@ -204,7 +204,7 @@ function StageGate({ index, total, label, active, progress }: StageProps) {
         style={{ pointerEvents: 'none' }}
       >
         <div
-          className="u-mono select-none whitespace-nowrap transition-opacity duration-700"
+          className="u-mono hidden select-none whitespace-nowrap transition-opacity duration-700 lg:block"
           style={{
             fontSize: '0.55rem',
             color: palette.neutral,

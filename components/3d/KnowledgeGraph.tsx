@@ -359,7 +359,7 @@ export function KnowledgeGraph({ active, drawEdges }: Props) {
               style={{ pointerEvents: 'none' }}
             >
               <div
-                className="u-mono select-none whitespace-nowrap transition-opacity duration-500"
+                className="u-mono hidden select-none whitespace-nowrap transition-opacity duration-500 lg:block"
                 style={{
                   fontSize: '0.6rem',
                   color: focusId && focusId !== c.id ? '#4a5061' : palette.accentWarm,
@@ -382,7 +382,7 @@ export function KnowledgeGraph({ active, drawEdges }: Props) {
             style={{ pointerEvents: 'none' }}
           >
             <div
-              className="u-mono select-none whitespace-nowrap rounded-full px-2 py-1"
+              className="u-mono hidden select-none whitespace-nowrap rounded-full px-2 py-1 lg:block"
               style={{
                 fontSize: '0.55rem',
                 color: '#07080a',

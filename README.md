@@ -33,7 +33,7 @@ rewrite every fact on the site without opening a component.
 | File | Holds |
 | --- | --- |
 | `data/profile.ts` | Name, title, summary, location, education, contact links, source list |
-| `data/experience.ts` | Career and academic milestones (the 3D arc + the cards) |
+| `data/experience.ts` | Career and academic milestones (the 3D arc + the cards) — add one and the arc grows and the camera pulls back to fit it |
 | `data/research.ts` | The CITSM 2022 paper: metadata, pipeline stages, figures |
 | `data/projects.ts` | Projects and repositories, and which 3D form represents each |
 | `data/skills.ts` | Every node and cluster in the knowledge graph |
@@ -51,18 +51,19 @@ which one in a `source` field. Nothing is inferred, rounded or filled in.
 
 | Source | Used for |
 | --- | --- |
-| [github.com/ebola1997](https://github.com/ebola1997) — Fikri's own profile | Title, current and previous roles, specialisms, toolset, email, social links |
+| [LinkedIn](https://www.linkedin.com/in/fikri-rama-singgih/) — experience section | Every role, employer, date, location and engagement type; the per-role skills |
+| [github.com/ebola1997](https://github.com/ebola1997) — Fikri's own profile | Self-described title, specialisms, full toolset, email, social links |
 | [DOI 10.1109/CITSM56380.2022.9935990](https://doi.org/10.1109/CITSM56380.2022.9935990) — IEEE / Crossref | Publication metadata, author order, university affiliation, every research figure |
 | [Public repositories](https://github.com/ebola1997?tab=repositories) | Projects, their stacks and their dates |
 
 The GitHub account is confirmed as Fikri's: its profile README carries the same LinkedIn URL
-as the brief. LinkedIn itself returns HTTP 999 to automated requests, so nothing was scraped
-from it — the affiliation and roles come from the sources above instead.
+as the brief. LinkedIn returns HTTP 999 to automated requests, so nothing was scraped — the
+experience data was transcribed from the profile directly.
 
-Where a public source states no date, the data file holds `null` and the UI prints
-"Date not published" rather than guessing. Two places are worth filling in if you know them:
-`profile.education[0].degree` and `.years`, and the `period` on each milestone in
-`data/experience.ts`.
+Where LinkedIn truncates a role description behind "…more", only the visible part is used and
+the rest is not guessed at. Where no source states a date, the data file holds `null` and the
+UI prints "Date not published". One gap is worth filling if you know it:
+`profile.education[0].degree` and `.years`.
 
 The research figures (940 tweets; 330/308/302; 98.75% accuracy) are quoted verbatim from the
 paper's abstract and are shown next to `research.caveat`, which states that they describe

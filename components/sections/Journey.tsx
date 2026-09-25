@@ -26,8 +26,8 @@ export function Journey() {
   return (
     <Section section={section} height="tall">
       <p className="u-body mb-3 max-w-prose">
-        Four milestones, each one traceable to a public record. Select any of them to fly the
-        camera to its node in the orbit.
+        {journey.length} milestones, earliest first, each one traceable to a public record.
+        Select any of them to fly the camera to its node on the arc.
       </p>
       <p className="u-small mb-10">
         Dates appear where a source states them. Where none does, this says so rather than
@@ -94,9 +94,11 @@ function MilestoneCard({ id, index }: { id: string; index: number }) {
         </div>
 
         <h3 className="u-h3 mt-2.5 text-[var(--color-ink)]">{milestone.role}</h3>
-        <p className="u-mono mt-1.5 text-[0.5625rem] text-[var(--color-muted)]">
+        <p className="u-mono mt-1.5 text-[0.5625rem] text-[var(--color-ink-soft)]">
           {milestone.organization}
-          {milestone.location ? ` · ${milestone.location}` : ''}
+        </p>
+        <p className="u-mono mt-1 text-[0.5625rem] text-[var(--color-muted)]">
+          {[milestone.location, milestone.engagement].filter(Boolean).join(' · ')}
         </p>
 
         <p className="u-small mt-3 text-[var(--color-ink-soft)]">{milestone.description}</p>

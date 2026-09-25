@@ -32,8 +32,8 @@ export const profile = {
 
   /** Self-described on his public GitHub profile. */
   title: 'Data Analytics Engineer',
-  /** Secondary role line — current engagement, self-described on GitHub. */
-  subtitle: 'Data Engineer — Bank Mandiri via Lawencon International',
+  /** Current engagement, per LinkedIn. */
+  subtitle: 'Data Engineer — Bank Mandiri via Lawencon Internasional',
 
   location: 'Jakarta, Indonesia',
 
@@ -43,21 +43,23 @@ export const profile = {
 
   /**
    * Summary assembled strictly from statements Fikri published himself
-   * (GitHub profile README) plus his IEEE-registered affiliation.
-   * No invented metrics, no invented scope.
+   * (GitHub profile README, LinkedIn experience) plus his IEEE-registered
+   * affiliation. No invented metrics, no invented scope.
    */
   summary:
-    'Data Analytics Engineer based in Jakarta, working across the full path from raw source systems to the query that answers a question. Currently a Data Engineer at Bank Mandiri via Lawencon International, focused on Oracle stored procedures and ETL DataStage. Previously team lead for data analytics at an IT consultancy, implementing anti-money-laundering analytics on TigerGraph, building Oracle APEX applications, and assembling pipelines with Python, Spark and Informatica.',
+    'Data Analytics Engineer based in Jakarta, working across the full path from raw source systems to the query that answers a question. Currently a Data Engineer at Bank Mandiri, contracted through Lawencon Internasional, on Oracle stored procedures and ETL DataStage. Before that, a year as tier-3 data analyst at Telkomsel, and nearly three years at the consultancy PT Prima Integrasi — the last six months leading its data analytics team — implementing anti-money-laundering analytics on TigerGraph, building Oracle APEX applications, and assembling pipelines with Python, Spark and Informatica.',
 
   /** Short version used in the boot sequence and meta description. */
   summaryShort:
-    'Data Analytics Engineer in Jakarta. Graph databases, ETL pipelines, and sentiment analysis research published with IEEE.',
+    'Data Analytics Engineer in Jakarta. Banking and telco data engineering, graph databases, and sentiment analysis research published with IEEE.',
 
   /** Rendered as small labelled facts beside the profile particle form. */
   facts: [
     { label: 'ROLE', value: 'Data Analytics Engineer', source: 'github-profile' as SourceId },
     { label: 'BASE', value: 'Jakarta, Indonesia', source: 'github-profile' as SourceId },
-    { label: 'FIELD', value: 'Information Systems', source: 'ieee-crossref' as SourceId },
+    // Derived from the earliest dated role on LinkedIn (Jun 2022), not an
+    // estimate — if the dates change, this line changes with them.
+    { label: 'WORKING SINCE', value: '2022', source: 'linkedin' as SourceId },
     { label: 'PUBLISHED', value: 'IEEE CITSM 2022', source: 'ieee-crossref' as SourceId },
   ],
 

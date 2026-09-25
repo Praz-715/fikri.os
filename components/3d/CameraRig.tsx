@@ -14,12 +14,27 @@ import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { sections } from '@/data/sections'
-import { experience } from '@/data/experience'
+import { journey } from '@/data/experience'
 import { useSystem } from '@/lib/system'
 import { useSelection } from '@/lib/store'
 import { dampVec } from '@/lib/three'
 import { duration, ease } from '@/lib/animations'
-import { JOURNEY_ORIGIN, journeyNodePosition } from './layout'
+import { JOURNEY_ORIGIN, journeyCameraDistance, journeyNodePosition } from './layout'
+import type { SectionDef } from '@/data/sections'
+
+/**
+ * Resting camera position for a section.
+ *
+ * Every section uses the anchor stored in `data/sections.ts` as-is,
+ * except the journey: its arc grows taller with each milestone added, so
+ * its stand-off is computed from the milestone count. Adding a role to
+ * `data/experience.ts` should pull the camera back, not crop the arc off
+ * the top and bottom of the frame.
+ */
+function anchorFor(section: SectionDef): [number, number, number] {
+  if (section.id !== 'journey') return section.anchor
+  return [section.anchor[0], section.anchor[1], section.look[2] + journeyCameraDistance(journey.length)]
+}
 
 export function CameraRig() {
   const camera = useThree((s) => s.camera)
@@ -54,7 +69,7 @@ export function CameraRig() {
   }, [camera, size.width, size.height, activeSection])
 
   // The tweened values. GSAP writes here; useFrame reads.
-  const anchor = useRef(new THREE.Vector3(...sections[0].anchor))
+  const anchor = useRef(new THREE.Vector3(...anchorFor(sections[0])))
   const target = useRef(new THREE.Vector3(...sections[0].look))
 
   // Composed per frame, never allocated in the loop.
@@ -62,7 +77,7 @@ export function CameraRig() {
     () => ({
       desired: new THREE.Vector3(),
       look: new THREE.Vector3(),
-      current: new THREE.Vector3(...sections[0].anchor),
+      current: new THREE.Vector3(...anchorFor(sections[0])),
       currentLook: new THREE.Vector3(...sections[0].look),
     }),
     [],
@@ -76,7 +91,7 @@ export function CameraRig() {
     const section = sections.find((s) => s.id === activeSection)
     if (!section) return
 
-    const [ax, ay, az] = section.anchor
+    const [ax, ay, az] = anchorFor(section)
     const [lx, ly, lz] = section.look
 
     if (reducedMotion) {
@@ -115,16 +130,16 @@ export function CameraRig() {
     const section = sections.find((s) => s.id === 'journey')!
     if (!journeyFocus) {
       // Back to the overview.
-      const [ax, ay, az] = section.anchor
+      const [ax, ay, az] = anchorFor(section)
       const [lx, ly, lz] = section.look
       gsap.to(anchor.current, { x: ax, y: ay, z: az, duration: duration.base * 1.6, ease: ease.travel, overwrite: true })
       gsap.to(target.current, { x: lx, y: ly, z: lz, duration: duration.base * 1.6, ease: ease.travel, overwrite: true })
       return
     }
 
-    const index = experience.findIndex((m) => m.id === journeyFocus)
+    const index = journey.findIndex((m) => m.id === journeyFocus)
     if (index < 0) return
-    const node = journeyNodePosition(index, experience.length)
+    const node = journeyNodePosition(index, journey.length)
 
     /**
      * Hold a constant stand-off and move mostly sideways along the arc,

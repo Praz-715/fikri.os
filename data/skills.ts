@@ -5,8 +5,9 @@
  * "ask me about" list and tool icons on his GitHub profile README, the
  * capabilities he describes there (AML on TigerGraph, Oracle APEX,
  * Python/Spark + Informatica pipelines, Oracle stored procedures, ETL
- * DataStage), the methods in the CITSM 2022 paper, and the stack of his
- * public repositories.
+ * DataStage), the skills listed against each role on his LinkedIn, the
+ * methods in the CITSM 2022 paper, and the stack of his public
+ * repositories.
  *
  * Nothing here is inferred from a job title. If a technology is not
  * named in one of those sources, it is not in this graph.
@@ -14,7 +15,7 @@
  * `source` records which of those it came from, and the UI can surface it.
  */
 
-export type SkillSourceId = 'readme' | 'paper' | 'repo'
+export type SkillSourceId = 'readme' | 'paper' | 'repo' | 'linkedin'
 
 export interface SkillCluster {
   id: string
@@ -97,12 +98,13 @@ export const skills: SkillNode[] = [
   { id: 'informatica', label: 'Informatica', cluster: 'pipeline', weight: 3, source: 'readme', links: ['spark'] },
   { id: 'spark', label: 'Apache Spark', cluster: 'pipeline', weight: 3, source: 'readme', links: ['python'] },
   { id: 'cloudera', label: 'Cloudera', cluster: 'pipeline', weight: 2, source: 'readme', links: ['hive'] },
-  { id: 'hive', label: 'Apache Hive', cluster: 'pipeline', weight: 1, source: 'readme' },
+  { id: 'hive', label: 'Hive / HiveQL', cluster: 'pipeline', weight: 2, source: 'linkedin', note: 'Named against the tier-3 analyst year at Telkomsel.' },
   { id: 'kafka', label: 'Apache Kafka', cluster: 'pipeline', weight: 1, source: 'repo' },
 
   // DATA STORES
   { id: 'oracle', label: 'Oracle', cluster: 'stores', weight: 3, source: 'readme', links: ['plsql', 'apex'], note: 'Stored procedures are the current day-to-day.' },
-  { id: 'plsql', label: 'Stored Procedures', cluster: 'stores', weight: 2, source: 'readme' },
+  { id: 'plsql', label: 'PL/SQL', cluster: 'stores', weight: 3, source: 'linkedin', links: ['oracle'], note: 'Two new and six updated stored procedures at Bank Mandiri, migrated dev to production.' },
+  { id: 'oracle-sqldev', label: 'Oracle SQL Developer', cluster: 'stores', weight: 2, source: 'linkedin', links: ['oracle'] },
   { id: 'postgres', label: 'PostgreSQL', cluster: 'stores', weight: 2, source: 'readme' },
   { id: 'mysql', label: 'MySQL', cluster: 'stores', weight: 2, source: 'readme' },
   { id: 'mariadb', label: 'MariaDB', cluster: 'stores', weight: 1, source: 'readme' },
@@ -136,6 +138,7 @@ export const skillSources: Record<SkillSourceId, string> = {
   readme: 'Named on his GitHub profile',
   paper: 'Method used in the CITSM 2022 paper',
   repo: 'Used in a public repository',
+  linkedin: 'Listed against a role on his LinkedIn',
 }
 
 /** Convenience lookups used by both the 3D graph and the DOM fallback list. */
