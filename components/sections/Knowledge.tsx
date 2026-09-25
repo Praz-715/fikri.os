@@ -16,10 +16,12 @@ import { clusters, skillsByCluster, skillSources } from '@/data/skills'
 import { sections } from '@/data/sections'
 import { Section } from '@/components/ui/Section'
 import { getSelection, setSelection, useSelection } from '@/lib/store'
+import { useSystem } from '@/lib/system'
 
 const section = sections[3]
 
 export function Knowledge() {
+  const { coarsePointer } = useSystem()
   const selected = useSelection('skillSelected')
   const hovered = useSelection('skillHover')
   const focus = selected ?? hovered
@@ -35,9 +37,12 @@ export function Knowledge() {
         Every node is something Fikri names publicly — on his GitHub profile, in the CITSM
         paper, or in a public repository. Nothing here is inferred from a job title.
       </p>
+      {/* The instruction has to match the hardware. Telling someone to
+          shift-scroll on a phone is worse than saying nothing. */}
       <p className="u-small mb-8">
-        Drag the graph to rotate it. Shift + scroll to zoom. Or use the list below — it does
-        the same thing.
+        {coarsePointer
+          ? 'Tap anything below to trace it through the graph and see where it comes from.'
+          : 'Drag the graph to rotate it. Shift + scroll to zoom. Or use the list below — it does the same thing.'}
       </p>
 
       {/* The detail panel holds its height so selecting a node never
@@ -85,7 +90,7 @@ export function Knowledge() {
               onBlur={() => {
                 if (getSelection().skillHover === cluster.id) setSelection({ skillHover: null })
               }}
-              className="u-mono mb-3 flex items-center gap-2.5 transition-colors"
+              className="u-mono mb-1 flex min-h-11 items-center gap-2.5 transition-colors lg:mb-3 lg:min-h-0"
               style={{
                 color:
                   focus === cluster.id ? 'var(--color-accent-soft)' : 'var(--color-muted)',
@@ -125,7 +130,9 @@ export function Knowledge() {
                         if (getSelection().skillHover === node.id)
                           setSelection({ skillHover: null })
                       }}
-                      className="rounded-full border px-3 py-1.5 text-[0.75rem] transition-all duration-200"
+                      // 44px tall wherever a finger is the input device;
+                      // back to a compact chip once there's a cursor.
+                      className="flex min-h-11 items-center rounded-full border px-3.5 text-[0.8125rem] transition-all duration-200 lg:min-h-0 lg:px-3 lg:py-1.5 lg:text-[0.75rem]"
                       style={{
                         borderColor: isFocus
                           ? 'var(--color-accent)'

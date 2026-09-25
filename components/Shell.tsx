@@ -89,9 +89,25 @@ export function Shell() {
 function Header() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-start justify-between px-6 py-5 sm:px-10">
+      {/* The header floats over scrolling content with nothing behind it,
+          so body text used to run straight through the wordmark on the way
+          past. A short fade gives it ground to stand on without boxing it
+          in. */}
+      {/* Painted first, so the wordmark and the name beside it draw over
+          it. A negative z-index would be the obvious way to say that, but
+          it lands the scrim behind the whole header's stacking context and
+          the page scrolls through it regardless. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-20"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgb(7,8,10) 0%, rgb(7,8,10) 38%, rgba(7,8,10,0.55) 72%, rgba(7,8,10,0) 100%)',
+        }}
+      />
       <a
         href="#section-profile"
-        className="pointer-events-auto"
+        className="pointer-events-auto relative"
         aria-label="FIKRI.OS — back to the start"
       >
         <span className="u-mono text-[var(--color-ink)]">
@@ -99,7 +115,7 @@ function Header() {
         </span>
       </a>
 
-      <p className="u-label hidden text-right sm:block">
+      <p className="u-label relative hidden text-right sm:block">
         {profile.name}
         <span className="mt-1 block">{profile.location}</span>
       </p>

@@ -121,7 +121,7 @@ function MilestoneCard({ id, index }: { id: string; index: number }) {
           href={milestone.href}
           target="_blank"
           rel="noreferrer noopener"
-          className="u-mono mt-2 ml-5 inline-block text-[0.5625rem] text-[var(--color-faint)] underline-offset-4 transition-colors hover:text-[var(--color-accent-soft)] hover:underline"
+          className="u-mono ml-5 inline-flex min-h-11 items-center text-[0.5625rem] text-[var(--color-faint)] underline-offset-4 transition-colors hover:text-[var(--color-accent-soft)] hover:underline lg:mt-2 lg:min-h-0"
         >
           Source ↗
         </a>

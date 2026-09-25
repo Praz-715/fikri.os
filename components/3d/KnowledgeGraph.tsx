@@ -237,6 +237,11 @@ export function KnowledgeGraph({ active, drawEdges }: Props) {
 
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0) return
+      // Touch is excluded: a finger dragged across the canvas is almost
+      // always someone scrolling the page, and treating it as a rotation
+      // spun the graph out from under them every time they scrolled past
+      // this section. Mouse and pen still drive it.
+      if (e.pointerType === 'touch') return
       dragging.current = true
       last.current = { x: e.clientX, y: e.clientY }
       el.setPointerCapture?.(e.pointerId)

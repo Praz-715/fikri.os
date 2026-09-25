@@ -16,16 +16,21 @@ import { projects, projectsNote } from '@/data/projects'
 import { sections } from '@/data/sections'
 import { Section } from '@/components/ui/Section'
 import { getSelection, setSelection, useSelection } from '@/lib/store'
+import { useSystem } from '@/lib/system'
 
 const section = sections[4]
 
 export function Projects() {
+  const { coarsePointer } = useSystem()
+
   return (
     <Section section={section} height="tall">
+      {/* On a phone there is no column to sit beside and no hover to
+          drive, so the copy describes what is actually true there. */}
       <p className="u-body mb-10 max-w-prose">
-        Each entry drives one of the structures in the scene behind this column. The form of
-        each structure follows what the project actually is — a graph project is drawn as a
-        graph, a pipeline as a flow.
+        {coarsePointer
+          ? 'Every entry has its own generated structure in the scene behind. The form follows what the project actually is — a graph project is drawn as a graph, a pipeline as a flow. Tap one for the full record.'
+          : 'Each entry drives one of the structures in the scene behind this column. The form of each structure follows what the project actually is — a graph project is drawn as a graph, a pipeline as a flow.'}
       </p>
 
       <ul className="divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">

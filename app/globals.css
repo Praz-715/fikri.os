@@ -20,7 +20,15 @@
   --color-ink: #f2f3f6;
   --color-ink-soft: #b7bcc8;
   --color-muted: #7f8697;
-  --color-faint: #4a5061;
+  /* 4.7:1 on --color-void. The previous value (#4a5061) was 2.5:1 and
+     carried real content — the current-role line, the sentiment
+     percentages, the email address under the contact button — not just
+     decoration. A dim label is a style choice; an unreadable fact is not.
+     Anything genuinely decorative sets its own colour inline. */
+  --color-faint: #737b8e;
+  /* Never text. Leader dots, tick marks — things that carry no meaning
+     and so have nothing to fail a contrast check with. */
+  --color-decor: #3a4052;
 
   --color-accent: #6e7bff;
   --color-accent-soft: #b8c0ff;
@@ -190,15 +198,23 @@ body[data-booting='true'] {
     );
 }
 
-/* On phones the column is the whole screen, so the horizontal falloff
-   has nowhere to go — fade top and bottom instead. */
+/* On phones and tablets the column is the whole screen, so the horizontal
+   falloff has nowhere to go — fade top and bottom instead.
+
+   The fade length is in pixels, not percent. Percentages resolve against
+   the column's own height, so on a 2000px section the "12%" stop left a
+   240px transparent band at each end — exactly the height of the heading.
+   The result was the scene blotted out through the middle and leaking
+   through behind the titles, which is the one place it must not be.
+   A fixed 72px fade behaves the same on a short section and a long one,
+   and leaves the scene visible in the gaps between sections instead. */
 @media (max-width: 1023px) {
   .u-scrim {
     background: linear-gradient(
       to bottom,
-      rgba(7, 8, 10, 0) 0%,
-      rgba(7, 8, 10, 0.92) 12%,
-      rgba(7, 8, 10, 0.92) 88%,
+      rgba(7, 8, 10, 0) 0,
+      rgba(7, 8, 10, 0.93) 72px,
+      rgba(7, 8, 10, 0.93) calc(100% - 72px),
       rgba(7, 8, 10, 0) 100%
     );
   }

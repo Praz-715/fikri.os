@@ -172,7 +172,7 @@ export function BootScreen() {
                       the leader reaches the status column at any width
                       rather than stopping short of it. */}
                   <span
-                    className="mx-1.5 flex-1 overflow-hidden whitespace-nowrap text-[var(--color-faint)]"
+                    className="mx-1.5 flex-1 overflow-hidden whitespace-nowrap text-[var(--color-decor)]"
                     aria-hidden="true"
                   >
                     {LEADER}

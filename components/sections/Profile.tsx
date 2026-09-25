@@ -29,7 +29,7 @@ export function Profile() {
       <div
         ref={ref}
         data-reveal={shown ? 'true' : 'false'}
-        className="relative w-full max-w-xl xl:max-w-2xl"
+        className="relative mx-auto w-full max-w-xl lg:mx-0 xl:max-w-2xl"
       >
         <div
           aria-hidden="true"

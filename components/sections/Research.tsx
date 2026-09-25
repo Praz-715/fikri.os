@@ -172,7 +172,7 @@ export function Research() {
           href={research.ieeeUrl}
           target="_blank"
           rel="noreferrer noopener"
-          className="u-mono self-center text-[var(--color-muted)] underline-offset-4 transition-colors hover:text-[var(--color-ink)] hover:underline"
+          className="u-mono inline-flex min-h-11 items-center self-center text-[var(--color-muted)] underline-offset-4 transition-colors hover:text-[var(--color-ink)] hover:underline lg:min-h-0"
         >
           IEEE Xplore
         </a>

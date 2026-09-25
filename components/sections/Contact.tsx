@@ -87,7 +87,7 @@ export function Contact() {
                 href={link.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="u-mono text-[var(--color-muted)] underline-offset-4 transition-colors hover:text-[var(--color-ink)] hover:underline"
+                className="u-mono inline-flex min-h-11 items-center text-[var(--color-muted)] underline-offset-4 transition-colors hover:text-[var(--color-ink)] hover:underline lg:min-h-0"
               >
                 {link.label} ↗
               </a>
@@ -108,7 +108,7 @@ export function Contact() {
                     href={s.href!}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="u-small text-[var(--color-faint)] underline-offset-4 transition-colors hover:text-[var(--color-muted)] hover:underline"
+                    className="u-small inline-flex min-h-11 items-center text-[var(--color-faint)] underline-offset-4 transition-colors hover:text-[var(--color-muted)] hover:underline lg:min-h-0"
                   >
                     {s.label}
                   </a>

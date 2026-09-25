@@ -47,6 +47,12 @@ interface SystemState {
   goTo: (id: SectionId) => void
   budget: QualityBudget
   reducedMotion: boolean
+  /**
+   * True on touch-primary devices. Used to pick instruction copy: telling
+   * someone to shift-scroll or hover is worse than saying nothing when
+   * they have neither a shift key nor a cursor.
+   */
+  coarsePointer: boolean
   webgl: boolean
   pointer: RefObject<Pointer>
   /** Set when the scene reports sustained low frame rates. */
@@ -62,6 +68,9 @@ export function SystemProvider({ children }: { children: ReactNode }) {
   const [activeSection, setActiveSection] = useState<SectionId>('profile')
   const [sectionProgress, setSectionProgress] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
+  // false on the server and first paint; corrected on mount, so the
+  // markup never disagrees with itself before hydration.
+  const [coarsePointer, setCoarsePointer] = useState(false)
   const [webgl, setWebgl] = useState(true)
   // Start at 'mid' so server and first client render agree; corrected on mount.
   const [tier, setTier] = useState(() => budgetFor('mid').tier)
@@ -79,6 +88,11 @@ export function SystemProvider({ children }: { children: ReactNode }) {
     applyMotion()
     mq.addEventListener('change', applyMotion)
 
+    const pointerMq = window.matchMedia('(pointer: coarse)')
+    const applyPointer = () => setCoarsePointer(pointerMq.matches)
+    applyPointer()
+    pointerMq.addEventListener('change', applyPointer)
+
     let resizeTimer: number
     const onResize = () => {
       window.clearTimeout(resizeTimer)
@@ -92,6 +106,7 @@ export function SystemProvider({ children }: { children: ReactNode }) {
 
     return () => {
       mq.removeEventListener('change', applyMotion)
+      pointerMq.removeEventListener('change', applyPointer)
       window.removeEventListener('resize', onResize)
       window.clearTimeout(resizeTimer)
     }
@@ -176,6 +191,7 @@ export function SystemProvider({ children }: { children: ReactNode }) {
       goTo,
       budget,
       reducedMotion,
+      coarsePointer,
       webgl,
       pointer,
       reportSlowFrames,
@@ -189,6 +205,7 @@ export function SystemProvider({ children }: { children: ReactNode }) {
       goTo,
       budget,
       reducedMotion,
+      coarsePointer,
       webgl,
       reportSlowFrames,
     ],

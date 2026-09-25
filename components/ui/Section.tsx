@@ -55,6 +55,12 @@ export function Section({
         data-reveal={shown ? 'true' : 'false'}
         className={[
           'relative w-full',
+          // Centred below lg. Between 768 and 1024 the scene sits directly
+          // behind the content rather than beside it (no view offset at
+          // that width), so a left-hugging column left a dead gutter on
+          // the right and read as a broken desktop layout rather than a
+          // deliberate one.
+          'mx-auto lg:mx-0',
           align === 'center' ? 'max-w-3xl text-center' : 'max-w-xl xl:max-w-2xl',
         ].join(' ')}
       >
@@ -101,7 +107,9 @@ export function Fact({
   return (
     <div className="border-t border-[var(--color-line)] pt-2.5">
       <dt className="u-label mb-1.5">{label}</dt>
-      <dd className="text-[0.875rem] leading-snug text-[var(--color-ink-soft)]">
+      {/* A DOI is one unbroken token wider than a phone column, and the
+          default wrapping rules would rather overflow than break it. */}
+      <dd className="text-[0.875rem] leading-snug text-[var(--color-ink-soft)] [overflow-wrap:anywhere]">
         {href ? (
           <a
             href={href}
